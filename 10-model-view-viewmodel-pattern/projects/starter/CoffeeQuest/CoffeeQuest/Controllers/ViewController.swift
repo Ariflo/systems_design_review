@@ -32,6 +32,7 @@ import YelpAPI
 public class ViewController: UIViewController {
   
   // MARK: - Properties
+  public let annotationFactory = AnnotationFactory()
   private var businesses: [YLPBusiness] = []
   private let client = YLPClient(apiKey: YelpAPIKey)
   private let locationManager = CLLocationManager()
@@ -46,7 +47,7 @@ public class ViewController: UIViewController {
   // MARK: - View Lifecycle
   public override func viewDidLoad() {
     super.viewDidLoad()
-
+    
     locationManager.requestWhenInUseAuthorization()
   }
   
@@ -75,8 +76,8 @@ extension ViewController: MKMapViewDelegate {
   private func searchForBusinesses() {
     let coordinate = mapView.userLocation.coordinate
     guard coordinate.latitude != 0,
-      coordinate.longitude != 0 else {
-        return
+          coordinate.longitude != 0 else {
+      return
     }
     
     let yelpCoordinate = YLPCoordinate(latitude: coordinate.latitude,
@@ -87,33 +88,55 @@ extension ViewController: MKMapViewDelegate {
                   limit: 35,
                   offset: 0,
                   sort: .bestMatched) { [weak self] (searchResult, error) in
-                    guard let self = self else { return }
-                    guard let searchResult = searchResult,
-                      error == nil else {
-                        print("Search failed: \(String(describing: error))")
-                        return
-                    }
-                    self.businesses = searchResult.businesses
-                    DispatchQueue.main.async {
-                      self.addAnnotations()
-                    }
+      guard let self = self else { return }
+      guard let searchResult = searchResult,
+            error == nil else {
+        print("Search failed: \(String(describing: error))")
+        return
+      }
+      self.businesses = searchResult.businesses
+      DispatchQueue.main.async {
+        self.addAnnotations()
+      }
     }
   }
   
   private func addAnnotations() {
     for business in businesses {
-      guard let yelpCoordinate = business.location.coordinate else {
-        continue
+      guard let viewModel =
+        annotationFactory.createBusinessMapViewModel(
+          for: business) else {
+            continue
       }
-
-      let coordinate = CLLocationCoordinate2D(latitude: yelpCoordinate.latitude,
-                                              longitude: yelpCoordinate.longitude)
-      let name = business.name
-      let rating = business.rating
-      let annotation = MapPin(coordinate: coordinate,
-                              name: name,
-                              rating: rating)
-      mapView.addAnnotation(annotation)
+      mapView.addAnnotation(viewModel)
     }
   }
+
+  
+  public func mapView(_ mapView: MKMapView,
+                      viewFor annotation: MKAnnotation)
+  -> MKAnnotationView? {
+    guard let viewModel =
+            annotation as? BusinessMapViewModel else {
+      return nil
+    }
+    
+    let identifier = "business"
+    let annotationView: MKAnnotationView
+    
+    if let existingView = mapView.dequeueReusableAnnotationView(
+      withIdentifier: identifier) {
+      annotationView = existingView
+    } else {
+      annotationView = MKAnnotationView(
+        annotation: viewModel,
+        reuseIdentifier: identifier)
+    }
+    
+    annotationView.image = viewModel.image
+    annotationView.canShowCallout = true
+    return annotationView
+  }
+  
+  
 }

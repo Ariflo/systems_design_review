@@ -2,7 +2,7 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:CoffeeQuest.xcodeproj">
+      location = "group:/Users/arianflores/code/tutorials/systems-design/des-materials/10-model-view-viewmodel-pattern/projects/starter/CoffeeQuest/CoffeeQuest.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:Pods/Pods.xcodeproj">

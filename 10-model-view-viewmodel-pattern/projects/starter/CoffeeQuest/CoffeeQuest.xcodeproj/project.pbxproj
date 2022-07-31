@@ -8,12 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		4252EAAA2023E05900847430 /* APIKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4252EAA92023E05900847430 /* APIKeys.swift */; };
+		B39A83A32897162E00D9760E /* AnnotationFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = B39A83A22897162E00D9760E /* AnnotationFactory.swift */; };
 		C35933852023BF5700D85500 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C35933842023BF5700D85500 /* AppDelegate.swift */; };
 		C35933872023BF5700D85500 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C35933862023BF5700D85500 /* ViewController.swift */; };
 		C359338A2023BF5700D85500 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C35933882023BF5700D85500 /* Main.storyboard */; };
 		C359338C2023BF5700D85500 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C359338B2023BF5700D85500 /* Assets.xcassets */; };
 		C359338F2023BF5700D85500 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C359338D2023BF5700D85500 /* LaunchScreen.storyboard */; };
-		C35933972023D71C00D85500 /* MapPin.swift in Sources */ = {isa = PBXBuildFile; fileRef = C35933962023D71C00D85500 /* MapPin.swift */; };
+		C35933972023D71C00D85500 /* BusinessMapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C35933962023D71C00D85500 /* BusinessMapViewModel.swift */; };
 		C38756A0E9013F2F1E6253E0 /* Pods_CoffeeQuest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7C9278042C96775D875EE9F /* Pods_CoffeeQuest.framework */; };
 /* End PBXBuildFile section */
 
@@ -21,6 +22,7 @@
 		0EB69E332F1CF61F584429C4 /* Pods-CoffeeQuest.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CoffeeQuest.release.xcconfig"; path = "Pods/Target Support Files/Pods-CoffeeQuest/Pods-CoffeeQuest.release.xcconfig"; sourceTree = "<group>"; };
 		4252EAA92023E05900847430 /* APIKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKeys.swift; sourceTree = "<group>"; };
 		75B5478A401116797B732C06 /* Pods-CoffeeQuest.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CoffeeQuest.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CoffeeQuest/Pods-CoffeeQuest.debug.xcconfig"; sourceTree = "<group>"; };
+		B39A83A22897162E00D9760E /* AnnotationFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnotationFactory.swift; sourceTree = "<group>"; };
 		C35933812023BF5700D85500 /* CoffeeQuest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CoffeeQuest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C35933842023BF5700D85500 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C35933862023BF5700D85500 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -28,7 +30,7 @@
 		C359338B2023BF5700D85500 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C359338E2023BF5700D85500 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C35933902023BF5700D85500 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		C35933962023D71C00D85500 /* MapPin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapPin.swift; sourceTree = "<group>"; };
+		C35933962023D71C00D85500 /* BusinessMapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusinessMapViewModel.swift; sourceTree = "<group>"; };
 		C7C9278042C96775D875EE9F /* Pods_CoffeeQuest.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CoffeeQuest.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -60,12 +62,12 @@
 			path = Controllers;
 			sourceTree = "<group>";
 		};
-		4252EAA62023DFEE00847430 /* Models */ = {
+		4252EAA62023DFEE00847430 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
-				C35933962023D71C00D85500 /* MapPin.swift */,
+				C35933962023D71C00D85500 /* BusinessMapViewModel.swift */,
 			);
-			path = Models;
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
 		4252EAA72023DFF400847430 /* Views */ = {
@@ -95,6 +97,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		B39A83A12897161000D9760E /* Factories */ = {
+			isa = PBXGroup;
+			children = (
+				B39A83A22897162E00D9760E /* AnnotationFactory.swift */,
+			);
+			path = Factories;
+			sourceTree = "<group>";
+		};
 		C1EFE88AC37DC2B295A4CA23 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -108,9 +118,10 @@
 			isa = PBXGroup;
 			children = (
 				C35933832023BF5700D85500 /* CoffeeQuest */,
-				C35933822023BF5700D85500 /* Products */,
-				C1EFE88AC37DC2B295A4CA23 /* Pods */,
+				B39A83A12897161000D9760E /* Factories */,
 				5FEA8354D6F6EA2089B72C93 /* Frameworks */,
+				C1EFE88AC37DC2B295A4CA23 /* Pods */,
+				C35933822023BF5700D85500 /* Products */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -129,8 +140,8 @@
 			children = (
 				4252EAA42023DFE500847430 /* AppDelegate */,
 				4252EAA52023DFE800847430 /* Controllers */,
-				4252EAA62023DFEE00847430 /* Models */,
 				4252EAA82023DFFB00847430 /* Resources */,
+				4252EAA62023DFEE00847430 /* ViewModels */,
 				4252EAA72023DFF400847430 /* Views */,
 			);
 			path = CoffeeQuest;
@@ -250,8 +261,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C35933972023D71C00D85500 /* MapPin.swift in Sources */,
+				C35933972023D71C00D85500 /* BusinessMapViewModel.swift in Sources */,
 				4252EAAA2023E05900847430 /* APIKeys.swift in Sources */,
+				B39A83A32897162E00D9760E /* AnnotationFactory.swift in Sources */,
 				C35933872023BF5700D85500 /* ViewController.swift in Sources */,
 				C35933852023BF5700D85500 /* AppDelegate.swift in Sources */,
 			);

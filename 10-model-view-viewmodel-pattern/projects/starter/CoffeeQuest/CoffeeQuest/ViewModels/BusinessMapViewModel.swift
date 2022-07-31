@@ -26,4 +26,41 @@
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 /// THE SOFTWARE.
 
-public let YelpAPIKey = "shHpsy5MOYWZBcHsjX1qorhuMVGt8LFfSz9lN9USVPKixia4v_dr6m4AOr3R88D9cYNVYaH-6C09PuNp0nH75bK6DWHovZgvJjUJ5BCxycRDAS5r4tdrf1eE39DmYnYx"
+import UIKit
+import MapKit
+
+public class BusinessMapViewModel: NSObject {
+  
+  // MARK: - Properties
+  public let coordinate: CLLocationCoordinate2D
+  public let name: String
+  public let rating: Double
+  public let image: UIImage
+  public let ratingDescription: String
+
+  
+  // MARK: - Object Lifecycle
+  public init(coordinate: CLLocationCoordinate2D,
+              name: String,
+              rating: Double,
+              image: UIImage) {
+    self.coordinate = coordinate
+    self.name = name
+    self.rating = rating
+    self.image = image
+    self.ratingDescription = "\(rating) stars"
+  }
+}
+
+// MARK: - MKAnnotation
+extension BusinessMapViewModel: MKAnnotation {
+  
+  public var title: String? {
+    return name
+  }
+  
+  public var subtitle: String? {
+    return ratingDescription
+  }
+
+}
