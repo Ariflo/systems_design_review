@@ -29,6 +29,13 @@
 import UIKit
 
 public class ViewController: UIViewController {
+  
+  // MARK: - Properties
+  public lazy var shareFacade: ShareFacade =
+    ShareFacade(entireDrawing: drawViewContainer,
+                inputDrawing: inputDrawView,
+                parentViewController: self)
+
 
   // MARK: - Outlets
   @IBOutlet public var drawViewContainer: UIView!
@@ -37,6 +44,9 @@ public class ViewController: UIViewController {
 
   // MARK: - Actions
   @IBAction public func animatePressed(_ sender: Any) {
+    mirrorDrawViews.forEach { $0.copyLines(from: inputDrawView) }
+    mirrorDrawViews.forEach { $0.animate() }
+
     inputDrawView.animate()
   }
 
@@ -46,6 +56,15 @@ public class ViewController: UIViewController {
   }
 
   @IBAction public func sharePressed(_ sender: Any) {
-
+    shareFacade.presentShareController()
   }
+  
+  // MARK: - View Lifecycle
+  public override func viewDidLoad() {
+    super.viewDidLoad()
+    mirrorDrawViews.forEach {
+      inputDrawView.addDelegate($0)
+    }
+  }
+
 }

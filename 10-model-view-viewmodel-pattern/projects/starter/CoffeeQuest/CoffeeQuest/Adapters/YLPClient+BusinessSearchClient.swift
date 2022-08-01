@@ -1,15 +1,15 @@
-/// Copyright (c) 2019 Razeware LLC
-///
+/// Copyright (c) 2022 Razeware LLC
+/// 
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
 /// of this software and associated documentation files (the "Software"), to deal
 /// in the Software without restriction, including without limitation the rights
 /// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 /// copies of the Software, and to permit persons to whom the Software is
 /// furnished to do so, subject to the following conditions:
-///
+/// 
 /// The above copyright notice and this permission notice shall be included in
 /// all copies or substantial portions of the Software.
-///
+/// 
 /// Notwithstanding the foregoing, you may not use, copy, modify, merge, publish,
 /// distribute, sublicense, create a derivative work, and/or sell copies of the
 /// Software in any work that is designed, intended, or marketed for pedagogical or
@@ -17,7 +17,7 @@
 /// or information technology.  Permission for such use, copying, modification,
 /// merger, publication, distribution, sublicensing, creation of derivative works,
 /// or sale is expressly withheld.
-///
+/// 
 /// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 /// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 /// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -26,62 +26,65 @@
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 /// THE SOFTWARE.
 
+import MapKit
+import YelpAPI
+
 // 1
-public class MulticastDelegate<ProtocolType> {
-
-  // MARK: - DelegateWrapper
-  // 2
-  private class DelegateWrapper {
-
-    weak var delegate: AnyObject?
-
-    init(_ delegate: AnyObject) {
-      self.delegate = delegate
-    }
+extension YLPClient: BusinessSearchClient {
+    
+  public func search(with coordinate: CLLocationCoordinate2D,
+                     term: String,
+                     limit: UInt,
+                     offset: UInt,
+                     success: @escaping (([Business]) -> Void),
+                     failure: @escaping ((Error?) -> Void)) {
+    
+    // 2
+    let yelpCoordinate = YLPCoordinate(
+      latitude: coordinate.latitude,
+      longitude: coordinate.longitude)
+      
+    search(
+      with: yelpCoordinate,
+      term: term,
+      limit: limit,
+      offset: offset,
+      sort: .bestMatched,
+      completionHandler: { (searchResult, error) in
+        
+        // 3
+        guard let searchResult = searchResult,
+          error == nil else {
+          failure(error)
+          return
+        }
+        
+        // 4
+        let businesses =
+          searchResult.businesses.adaptToBusinesses()
+        success(businesses)
+    })
   }
-    
-    // MARK: - Instance Properties
-    // 1
-    private var delegateWrappers: [DelegateWrapper]
-
-    // 2
-    public var delegates: [ProtocolType] {
-      delegateWrappers = delegateWrappers
-        .filter { $0.delegate != nil }
-      return delegateWrappers.map
-        { $0.delegate! } as! [ProtocolType]
-    }
-
-    // MARK: - Object Lifecycle
-    // 3
-    public init(delegates: [ProtocolType] = []) {
-      delegateWrappers = delegates.map {
-        DelegateWrapper($0 as AnyObject)
-      }
-    }
-    // MARK: - Delegate Management
-    // 1
-    public func addDelegate(_ delegate: ProtocolType) {
-      let wrapper = DelegateWrapper(delegate as AnyObject)
-      delegateWrappers.append(wrapper)
-    }
-
-    // 2
-    public func removeDelegate(_ delegate: ProtocolType) {
-      guard let index = delegateWrappers.firstIndex(where: {
-        $0.delegate === (delegate as AnyObject)
-      }) else {
-        return
-      }
-      delegateWrappers.remove(at: index)
-    }
-    
-    public func invokeDelegates(_ closure: (ProtocolType) -> ()) {
-      delegates.forEach { closure($0) }
-    }
-
-
-    
 }
 
+// 5
+extension Array where Element: YLPBusiness {
+
+  func adaptToBusinesses() -> [Business] {
+  
+    return compactMap { yelpBusiness in
+      guard let yelpCoordinate =
+        yelpBusiness.location.coordinate else {
+        return nil
+      }
+      let coordinate = CLLocationCoordinate2D(
+        latitude: yelpCoordinate.latitude,
+        longitude: yelpCoordinate.longitude)
+        
+      return Business(name: yelpBusiness.name,
+                      rating: yelpBusiness.rating,
+                      location: coordinate)
+    }
+  }
+}
 

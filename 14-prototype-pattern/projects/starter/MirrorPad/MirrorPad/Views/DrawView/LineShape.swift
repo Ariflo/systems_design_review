@@ -26,62 +26,47 @@
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 /// THE SOFTWARE.
 
-// 1
-public class MulticastDelegate<ProtocolType> {
+import UIKit
 
-  // MARK: - DelegateWrapper
-  // 2
-  private class DelegateWrapper {
+public class LineShape: CAShapeLayer, Copying {
+  // MARK: - Instance Properties
+  private let bezierPath: UIBezierPath
 
-    weak var delegate: AnyObject?
+  // MARK: - Object Lifecycle
+  public init(color: UIColor, width: CGFloat, startPoint: CGPoint) {
+    bezierPath = UIBezierPath()
+    bezierPath.move(to: startPoint)
+    super.init()
 
-    init(_ delegate: AnyObject) {
-      self.delegate = delegate
-    }
+    fillColor = nil
+    lineWidth = width
+    path = bezierPath.cgPath
+    strokeColor = color.cgColor
   }
-    
-    // MARK: - Instance Properties
-    // 1
-    private var delegateWrappers: [DelegateWrapper]
 
-    // 2
-    public var delegates: [ProtocolType] {
-      delegateWrappers = delegateWrappers
-        .filter { $0.delegate != nil }
-      return delegateWrappers.map
-        { $0.delegate! } as! [ProtocolType]
-    }
+  public override convenience init(layer: Any) {
+    let lineShape = layer as! LineShape
+    self.init(lineShape)
+  }
 
-    // MARK: - Object Lifecycle
-    // 3
-    public init(delegates: [ProtocolType] = []) {
-      delegateWrappers = delegates.map {
-        DelegateWrapper($0 as AnyObject)
-      }
-    }
-    // MARK: - Delegate Management
-    // 1
-    public func addDelegate(_ delegate: ProtocolType) {
-      let wrapper = DelegateWrapper(delegate as AnyObject)
-      delegateWrappers.append(wrapper)
-    }
+  public required init(_ prototype: LineShape) {
+    bezierPath = prototype.bezierPath.copy() as! UIBezierPath
+    super.init(layer: prototype)
 
-    // 2
-    public func removeDelegate(_ delegate: ProtocolType) {
-      guard let index = delegateWrappers.firstIndex(where: {
-        $0.delegate === (delegate as AnyObject)
-      }) else {
-        return
-      }
-      delegateWrappers.remove(at: index)
-    }
-    
-    public func invokeDelegates(_ closure: (ProtocolType) -> ()) {
-      delegates.forEach { closure($0) }
-    }
+    fillColor = nil
+    lineWidth = prototype.lineWidth
+    path = bezierPath.cgPath
+    strokeColor = prototype.strokeColor
+  }
 
 
-    
+  public required init?(coder aDecoder: NSCoder) {
+    fatalError("init(coder:) is not supported")
+  }
+
+  // MARK: - Instance Methods
+  public func addPoint(_ point: CGPoint) {
+    bezierPath.addLine(to: point)
+    path = bezierPath.cgPath
+  }
 }
-
-
