@@ -47,12 +47,30 @@ public class PlayerInputState: GameState {
     updateMoveCountLabel()
   }
 
+  // 1
   public override func addMove(at position: GameboardPosition) {
-    // TODO: - Add move for player
+
+    // 2
+    let moveCount = movesForPlayer[player]!.count
+    guard moveCount < turnsPerPlayer else { return }
+
+    // 3
+    displayMarkView(at: position, turnNumber: moveCount + 1)
+
+    // 4
+    enqueueMoveCommand(at: position)
+    updateMoveCountLabel()
   }
 
+
   private func enqueueMoveCommand(at position: GameboardPosition) {
-    // TODO: - Enqueue the command to be performed later
+    let newMove = MoveCommand(gameboard: gameboard,
+                              gameboardView: gameboardView,
+                              player: player,
+                              position: position)
+
+    movesForPlayer[player]!.append(newMove)
+
   }
 
   private func displayMarkView(at position: GameboardPosition, turnNumber: Int) {
@@ -70,14 +88,35 @@ public class PlayerInputState: GameState {
   }
 
   private func updateMoveCountLabel() {
-    // TODO: - Show remaining moves left
+    let turnsRemaining = turnsPerPlayer - movesForPlayer[player]!.count
+    gameplayView.moveCountLabel.text =
+      "\(turnsRemaining) Moves Left"
+
   }
 
   public override func handleActionPressed() {
-    // TODO: - Handle action pressed
+    guard movesForPlayer[player]!.count == turnsPerPlayer
+      else { return }
+    gameManager.transitionToNextState()
+
   }
 
   public override func handleUndoPressed() {
-    // TODO: - Handle undo pressed
+    // 1
+    var moves = movesForPlayer[player]!
+    guard let position = moves.popLast()?.position else { return }
+
+    // 2
+    movesForPlayer[player] = moves
+    updateMoveCountLabel()
+
+    // 3
+    let markView = gameboardView.markViewForPosition[position]!
+    _ = markView.turnNumbers.popLast()
+
+    // 4
+    guard markView.turnNumbers.count == 0 else { return }
+    gameboardView.removeMarkView(at: position, animated: false)
+
   }
 }

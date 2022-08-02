@@ -19,6 +19,8 @@
 		42A178B82090477F004F9B58 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 42A178B62090477F004F9B58 /* Main.storyboard */; };
 		42A178BA20904780004F9B58 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 42A178B920904780004F9B58 /* Assets.xcassets */; };
 		42A178BD20904780004F9B58 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 42A178BB20904780004F9B58 /* LaunchScreen.storyboard */; };
+		B39A83D328989C9E00D9760E /* DecryptionHandlerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B39A83D228989C9E00D9760E /* DecryptionHandlerProtocol.swift */; };
+		B39A83D528989CD900D9760E /* DycryptionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = B39A83D428989CD900D9760E /* DycryptionHandler.swift */; };
 		EEB58FE55E81995D685988F1 /* Pods_RWSecret.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DA5DCEAAE7F1D9DAEB377B3 /* Pods_RWSecret.framework */; };
 /* End PBXBuildFile section */
 
@@ -52,6 +54,8 @@
 		42A178BE20904780004F9B58 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5E22C191B2B744D0AC18ECCB /* Pods-RWSecret.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RWSecret.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RWSecret/Pods-RWSecret.debug.xcconfig"; sourceTree = "<group>"; };
 		68763F3211B329457010C6D8 /* Pods-RWSecret.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RWSecret.release.xcconfig"; path = "Pods/Target Support Files/Pods-RWSecret/Pods-RWSecret.release.xcconfig"; sourceTree = "<group>"; };
+		B39A83D228989C9E00D9760E /* DecryptionHandlerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecryptionHandlerProtocol.swift; sourceTree = "<group>"; };
+		B39A83D428989CD900D9760E /* DycryptionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DycryptionHandler.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,6 +90,8 @@
 			isa = PBXGroup;
 			children = (
 				4201976D2090650D00A192ED /* PasswordClient.swift */,
+				B39A83D228989C9E00D9760E /* DecryptionHandlerProtocol.swift */,
+				B39A83D428989CD900D9760E /* DycryptionHandler.swift */,
 			);
 			path = PasswordClient;
 			sourceTree = "<group>";
@@ -367,6 +373,8 @@
 				42A178B52090477F004F9B58 /* DecryptViewController.swift in Sources */,
 				42A178B32090477F004F9B58 /* AppDelegate.swift in Sources */,
 				4201976E2090650D00A192ED /* PasswordClient.swift in Sources */,
+				B39A83D328989C9E00D9760E /* DecryptionHandlerProtocol.swift in Sources */,
+				B39A83D528989CD900D9760E /* DycryptionHandler.swift in Sources */,
 				42019793209099BA00A192ED /* SecretMessageCareTaker.swift in Sources */,
 				4201976B2090642500A192ED /* PasswordViewController.swift in Sources */,
 				420197912090994900A192ED /* SecretMessage.swift in Sources */,

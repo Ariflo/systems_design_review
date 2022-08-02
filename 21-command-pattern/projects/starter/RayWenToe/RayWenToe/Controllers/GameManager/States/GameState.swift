@@ -41,6 +41,12 @@ public class GameState {
   public var gameplayView: GameplayView {
     return gameManager.gameplayView
   }
+  
+  public var movesForPlayer: [Player: [MoveCommand]] {
+    get { return gameManager.movesForPlayer }
+    set { gameManager.movesForPlayer = newValue }
+  }
+
 
   internal var turnsPerPlayer: Int {
     return gameManager.turnsPerPlayer

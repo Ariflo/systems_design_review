@@ -26,3 +26,26 @@
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 /// THE SOFTWARE.
 
+import UIKit
+
+public protocol Router: AnyObject {
+    // 1
+    func present(_ viewController: UIViewController,
+                 animated: Bool)
+    
+    func present(_ viewController: UIViewController,
+                 animated: Bool,
+                 onDismissed: (()->Void)?)
+    // 2
+    func dismiss(animated: Bool)
+}
+
+extension Router {
+    // 3
+    public func present(_ viewController: UIViewController,
+                        animated: Bool) {
+        present(viewController,
+                animated: animated,
+                onDismissed: nil)
+    }
+}

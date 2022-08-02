@@ -1,15 +1,15 @@
-/// Copyright (c) 2019 Razeware LLC
-///
+/// Copyright (c) 2022 Razeware LLC
+/// 
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
 /// of this software and associated documentation files (the "Software"), to deal
 /// in the Software without restriction, including without limitation the rights
 /// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 /// copies of the Software, and to permit persons to whom the Software is
 /// furnished to do so, subject to the following conditions:
-///
+/// 
 /// The above copyright notice and this permission notice shall be included in
 /// all copies or substantial portions of the Software.
-///
+/// 
 /// Notwithstanding the foregoing, you may not use, copy, modify, merge, publish,
 /// distribute, sublicense, create a derivative work, and/or sell copies of the
 /// Software in any work that is designed, intended, or marketed for pedagogical or
@@ -17,7 +17,7 @@
 /// or information technology.  Permission for such use, copying, modification,
 /// merger, publication, distribution, sublicensing, creation of derivative works,
 /// or sale is expressly withheld.
-///
+/// 
 /// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 /// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 /// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -26,40 +26,30 @@
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 /// THE SOFTWARE.
 
-public protocol Coordinator: AnyObject {
+import RNCryptor
 
-  var children: [Coordinator] { get set }
-  var router: Router { get }
+public class DecryptionHandler {
 
-  func present(animated: Bool, onDismissed: (() -> Void)?)
-  func dismiss(animated: Bool)
-  func presentChild(_ child: Coordinator,
-                    animated: Bool,
-                    onDismissed: (() -> Void)?)
+  // MARK: - Instance Properties
+  public var next: DecryptionHandlerProtocol?
+  public let password: String
+
+  public init(password: String) {
+    self.password = password
+  }
 }
 
-extension Coordinator {
+extension DecryptionHandler: DecryptionHandlerProtocol {
 
-  public func dismiss(animated: Bool) {
-    router.dismiss(animated: true)
-  }
-
-  public func presentChild(_ child: Coordinator,
-                           animated: Bool,
-                           onDismissed: (() -> Void)? = nil) {
-    children.append(child)
-    child.present(animated: animated, onDismissed: { [weak self, weak child] in
-      guard let self = self, let child = child else { return }
-      self.removeChild(child)
-      onDismissed?()
-    })
-  }
-
-  private func removeChild(_ child: Coordinator) {
-    guard let index = children.firstIndex(where:  { $0 === child })
-      else {
-        return
+  public func decrypt(data encryptedData: Data) -> String? {
+    guard let data = try? RNCryptor.decrypt(
+      data: encryptedData,
+      withPassword: password),
+      let text = String(data: data, encoding: .utf8) else {
+        return next?.decrypt(data: encryptedData)
     }
-    children.remove(at: index)
+    return text
   }
 }
+
+

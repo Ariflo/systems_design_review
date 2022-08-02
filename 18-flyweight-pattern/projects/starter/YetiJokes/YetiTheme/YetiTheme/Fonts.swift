@@ -26,3 +26,45 @@
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 /// THE SOFTWARE.
 
+import Foundation
+
+public final class Fonts {
+
+  // 1
+  public static let large = loadFont(name: fontName,
+                                     size: 30.0)
+  public static let medium = loadFont(name: fontName,
+                                      size: 25.0)
+  public static let small = loadFont(name: fontName,
+                                     size: 18.0)
+  
+  // 2
+  private static let fontName = "coolstory-regular"
+  
+  // 3
+  private static func loadFont(name: String,
+                               size: CGFloat) -> UIFont {
+
+    if let font = UIFont(name: name, size: size) {
+      return font
+    }
+
+    let bundle = Bundle(for: Fonts.self)
+    
+    // 4
+    guard
+      let url = bundle.url(forResource: name,
+                           withExtension: "ttf"),
+      let fontData = NSData(contentsOf: url),
+      let provider = CGDataProvider(data: fontData),
+      let cgFont = CGFont(provider),
+      let fontName = cgFont.postScriptName as String? else {
+        preconditionFailure("Unable to load font named \(name)")
+    }
+    
+    CTFontManagerRegisterGraphicsFont(cgFont, nil)
+    
+    // 5
+    return UIFont(name: fontName, size: size)!
+  }
+}

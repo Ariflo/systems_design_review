@@ -34,6 +34,8 @@ public class GameManager {
   public weak var gameplayView: GameplayView! {
     didSet { gameboard = Gameboard(size: gameplayView.gameboardView.boardSize) }
   }
+  internal lazy var movesForPlayer = [player1: [MoveCommand](), player2: [MoveCommand]()]
+
   public let player1: Player
   public let player2: Player
   public private(set) var gameboard: Gameboard!
@@ -87,7 +89,7 @@ public class GameManager {
     gameboard.clear()
     gameplayView.gameboardView.clear()
 
-    // TODO: - Reset movesForPlayers
+    movesForPlayer = [player1: [], player2: []]
 
     currentStateIndex = 0
     currentState.begin()
